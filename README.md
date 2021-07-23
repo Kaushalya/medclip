@@ -9,11 +9,12 @@
 This repository contains the code for fine-tuning a CLIP model [[Arxiv paper](https://arxiv.org/abs/2103.00020)][[OpenAI Github Repo](https://github.com/openai/CLIP)] on the [ROCO dataset](https://github.com/razorx89/roco-dataset), a dataset made of radiology images and a caption.
 This work is done as a part of the [**Flax/Jax community week**](https://github.com/huggingface/transformers/blob/master/examples/research_projects/jax-projects/README.md#quickstart-flax-and-jax-in-transformers) organized by Hugging Face and Google.
 
+[[🤗 Model card]](https://huggingface.co/flax-community/medclip-roco) [[Streamlit demo]](https://huggingface.co/spaces/kaushalya/medclip-roco)
+
 ### Demo
 You can try a Streamlit demo app that uses this model on [🤗 Spaces](https://huggingface.co/spaces/kaushalya/medclip-roco). You may have to signup for 🤗 Spaces private beta to access this app (screenshot shown below).
 ![Streamlit app](./assets/streamlit_app.png)
 
-🤗 Hub Model card: https://huggingface.co/flax-community/medclip-roco
 ## Dataset 🧩
 
 Each image is accompanied by a textual caption. The caption length varies from a few characters (a single word) to 2,000 characters (multiple sentences). During preprocessing we remove all images that has a caption shorter than 10 characters.
@@ -33,6 +34,7 @@ from medclip.modeling_hybrid_clip import FlaxHybridCLIP
 
 model = FlaxHybridCLIP.from_pretrained("flax-community/medclip-roco")
 ```
+Alternatively you can download the model checkpoint from [[🤗 Model card]](https://huggingface.co/flax-community/medclip-roco).
 ## Training
 The model is trained using Flax/JAX on a cloud TPU-v3-8. 
 You can fine-tune a CLIP model implemented in Flax by simply running `sh run_medclip`.
