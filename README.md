@@ -42,7 +42,8 @@ This is the validation loss curve we observed when we trained the model using th
 ![Validation loss](./assets/val_loss.png)
 
 ## Limitations 🚨
-The current model is capable of identifying if a given radiology image is a PET scan or an ultrasound scan. However it fails at identifying a brain scan from a lung scan. ❗️This model **should not** be used in a medical setting without further evaluations❗️.
+The current model is capable of identifying higher level features such as the modality of ain image (e.g., 
+if a given radiology image is a PET scan or an ultrasound scan). However it fails at identifying a brain scan from a lung scan. ❗️This model **should not** be used in a medical setting without further evaluations❗️.
 
 ## Acknowledgements
 Huge thanks to the Hugging Face 🤗 team and Google JAX/Flax team for organizing the community week and letting us use cloud compute for 2 weeks. We specially thank [@patil-suraj](https://github.com/patil-suraj) & [@patrickvonplaten](https://github.com/patrickvonplaten) for the continued support on Slack and the detailed feedback.
