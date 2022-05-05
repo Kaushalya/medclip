@@ -25,6 +25,11 @@ This work is done as a part of the [**Flax/Jax community week**](https://github.
 You can try a Streamlit demo app that uses this model on [🤗 Spaces](https://huggingface.co/spaces/kaushalya/medclip-roco). You may have to signup for 🤗 Spaces private beta to access this app (screenshot shown below).
 ![Streamlit app](./assets/streamlit_app.png)
 
+The demo can be run locally in the browser with
+```
+streamlit run /home/kaushalya/coding/medclip/app.py
+```
+
 ## Dataset 🧩
 
 Each image is accompanied by a textual caption. The caption length varies from a few characters (a single word) to 2,000 characters (multiple sentences). During preprocessing we remove all images that has a caption shorter than 10 characters.
