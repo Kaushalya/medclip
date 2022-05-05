@@ -1,3 +1,13 @@
+---
+title: Medical image retrieval using a CLIP model
+emoji: 🩺
+colorFrom: red
+colorTo: white
+sdk: streamlit
+app_file: app.py
+pinned: True
+---
+
 # MedCLIP: Fine-tuning a CLIP model on the ROCO medical dataset
 
 <!-- ![Logo](./assets/logo.png) -->
@@ -14,6 +24,11 @@ This work is done as a part of the [**Flax/Jax community week**](https://github.
 ### Demo
 You can try a Streamlit demo app that uses this model on [🤗 Spaces](https://huggingface.co/spaces/kaushalya/medclip-roco). You may have to signup for 🤗 Spaces private beta to access this app (screenshot shown below).
 ![Streamlit app](./assets/streamlit_app.png)
+
+The demo can be run locally in the browser with
+```
+streamlit run /home/kaushalya/coding/medclip/app.py
+```
 
 ## Dataset 🧩
 
