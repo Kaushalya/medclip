@@ -1,4 +1,4 @@
-python src/medclip/run_medclip.py \
+python ./medclip/run_medclip.py \
     --output_dir ./snapshots/vision_augmented_biobert \
     --text_model_name_or_path="allenai/scibert_scivocab_uncased" \
     --vision_model_name_or_path="openai/clip-vit-base-patch32" \
