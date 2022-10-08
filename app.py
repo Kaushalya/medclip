@@ -11,7 +11,7 @@ from medclip.modeling_hybrid_clip import FlaxHybridCLIP
 
 @st.cache(allow_output_mutation=True)
 def load_model():
-    model = FlaxHybridCLIP.from_pretrained("flax-community/medclip-roco", _do_init=False)
+    model, _ = FlaxHybridCLIP.from_pretrained("flax-community/medclip-roco", _do_init=False)
     processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
     return model, processor
 
