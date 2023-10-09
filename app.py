@@ -1,21 +1,22 @@
 import os
+import token
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import streamlit as st
-from transformers import CLIPProcessor
+from transformers import CLIPProcessor, AutoTokenizer
 
 from medclip.modeling_hybrid_clip import FlaxHybridCLIP
 
 
-@st.cache(allow_output_mutation=True)
+@st.cache_resource
 def load_model():
-    model, _ = FlaxHybridCLIP.from_pretrained("flax-community/medclip-roco", _do_init=False)
-    processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
-    return model, processor
+    model = FlaxHybridCLIP.from_pretrained("flax-community/medclip-roco", _do_init=True)
+    tokenizer = AutoTokenizer.from_pretrained('allenai/scibert_scivocab_uncased')
+    return model, tokenizer
 
-@st.cache(allow_output_mutation=True)
+@st.cache_resource
 def load_image_embeddings():
     embeddings_df = pd.read_hdf('feature_store/image_embeddings_large.hdf', key='emb')
     image_embeds = np.stack(embeddings_df['image_embedding'])
@@ -64,7 +65,7 @@ elif ex4_button:
 
 
 image_list, image_embeddings = load_image_embeddings()
-model, processor = load_model()
+model, tokenizer = load_model()
 
 query = st.text_input("Enter your query here:", value=text_value)
 dot_prod = None
@@ -78,8 +79,8 @@ if st.button("Search") or k_slider:
     else:
         with st.spinner(f"Searching ROCO test set for {query}..."):
             k = k_slider
-            inputs = processor(text=[query], images=None, return_tensors="jax", padding=True)
-
+            inputs = tokenizer(text=[query], return_tensors="jax", padding=True)
+            # st.write(f"Query inputs: {inputs}")
             query_embedding = model.get_text_features(**inputs)
             query_embedding = np.asarray(query_embedding)
             query_embedding = query_embedding / np.linalg.norm(query_embedding, axis=-1, keepdims=True)
@@ -91,4 +92,4 @@ if st.button("Search") or k_slider:
             for img_path, score in zip(matching_images, top_scores):
                 img = plt.imread(os.path.join(img_dir, img_path))
                 st.image(img, width=300)
-                st.write(f"{img_path} ({score:.2f})", help="score")
+                st.write(f"{img_path} ({score:.2f})")

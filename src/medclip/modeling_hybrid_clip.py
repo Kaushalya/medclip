@@ -32,7 +32,7 @@ logger = logging.get_logger(__name__)
 class FlaxHybridCLIPModule(nn.Module):
     config: HybridCLIPConfig
     dtype: jnp.dtype = jnp.float32
-    _do_init: bool = False
+    _do_init: bool = True
 
     def setup(self):
         text_config = self.config.text_config

@@ -32,7 +32,7 @@ logger = logging.get_logger(__name__)
 class FlaxHybridCLIPModule(nn.Module):
     config: HybridCLIPConfig
     dtype: jnp.dtype = jnp.float32
-    _do_init: bool = False
+    _do_init: bool = True
 
     def setup(self):
         text_config = self.config.text_config
@@ -94,7 +94,6 @@ class FlaxHybridCLIPModule(nn.Module):
             output_hidden_states=output_hidden_states,
             return_dict=return_dict,
         )
-
         image_embeds = vision_outputs[1]
         image_embeds = self.visual_projection(image_embeds)
 
@@ -139,7 +138,7 @@ class FlaxHybridCLIP(FlaxPreTrainedModel):
             input_shape = ((1, 1), (1, config.vision_config.image_size, config.vision_config.image_size, 3))
 
         module = self.module_class(config=config, dtype=dtype, **kwargs)
-        super().__init__(config, module, input_shape=input_shape, seed=seed, dtype=dtype)
+        super().__init__(config, module, input_shape=input_shape, seed=seed, dtype=dtype, _do_init=kwargs.get("_do_init", True))
 
     def init_weights(self, rng: jax.random.PRNGKey, input_shape: Tuple) -> FrozenDict:
         # init input tensor
