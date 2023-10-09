@@ -19,6 +19,8 @@ pinned: True
 This repository contains the code for fine-tuning a CLIP model [[Arxiv paper](https://arxiv.org/abs/2103.00020)][[OpenAI Github Repo](https://github.com/openai/CLIP)] on the [ROCO dataset](https://github.com/razorx89/roco-dataset), a dataset made of radiology images and a caption.
 This work is done as a part of the [**Flax/Jax community week**](https://github.com/huggingface/transformers/blob/master/examples/research_projects/jax-projects/README.md#quickstart-flax-and-jax-in-transformers) organized by Hugging Face and Google.
 
+**SciBERT** (`allenai/scibert_scivocab_uncased` on 🤗) is used as the casual language model.
+
 [[🤗 Model card]](https://huggingface.co/flax-community/medclip-roco) [[Streamlit demo]](https://huggingface.co/spaces/kaushalya/medclip-roco)
 
 ### Demo
@@ -71,6 +73,3 @@ Huge thanks to the Hugging Face 🤗 team and Google JAX/Flax team for organizin
 [ ] Evaluation on down-stream tasks
 
 [ ] Zero-shot learning performance
-
-[ ] Merge the demo app
-
