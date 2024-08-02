@@ -1,5 +1,6 @@
 jax
 flax
+numpy==1.26.4
 huggingface-hub
 streamlit
 torch
@@ -10,4 +11,3 @@ matplotlib
 transformers
 watchdog
 tables
-streamlit
