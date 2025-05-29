@@ -57,11 +57,19 @@ class HybridCLIPConfig(PretrainedConfig):
     def __init__(self, projection_dim=512, **kwargs):
         super().__init__(**kwargs)
 
-        if "text_config" not in kwargs:
+        if "text_config" not in kwargs and len(kwargs) > 0:
             raise ValueError("`text_config` can not be `None`.")
 
-        if "vision_config" not in kwargs:
+        if "vision_config" not in kwargs and len(kwargs) > 0:
             raise ValueError("`vision_config` can not be `None`.")
+
+        # Handle case where config is instantiated without arguments (for default config creation)
+        if not kwargs:
+            self.text_config = None
+            self.vision_config = None
+            self.projection_dim = projection_dim
+            self.initializer_factor = 1.0
+            return
 
         text_config = kwargs.pop("text_config")
         vision_config = kwargs.pop("vision_config")
@@ -106,7 +114,9 @@ class HybridCLIPConfig(PretrainedConfig):
             :obj:`Dict[str, any]`: Dictionary of all the attributes that make up this configuration instance,
         """
         output = copy.deepcopy(self.__dict__)
-        output["text_config"] = self.text_config.to_dict()
-        output["vision_config"] = self.vision_config.to_dict()
+        if self.text_config is not None:
+            output["text_config"] = self.text_config.to_dict()
+        if self.vision_config is not None:
+            output["vision_config"] = self.vision_config.to_dict()
         output["model_type"] = self.__class__.model_type
         return output

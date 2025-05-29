@@ -1,11 +1,18 @@
 import os
 import token
 
+# Fix for Streamlit + PyTorch compatibility issue
+import torch
+import sys
+if hasattr(torch, '_classes'):
+    # Prevent Streamlit from watching torch._classes module
+    sys.modules['torch._classes'].__path__ = []
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import streamlit as st
-from transformers import CLIPProcessor, AutoTokenizer
+from transformers import AutoTokenizer
 
 from medclip.modeling_hybrid_clip import FlaxHybridCLIP
 
