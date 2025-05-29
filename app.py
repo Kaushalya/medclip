@@ -24,7 +24,7 @@ import torch
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from transformers import AutoTokenizer
+sfrom transformers import AutoTokenizer
 
 from medclip.modeling_hybrid_clip import FlaxHybridCLIP
 
