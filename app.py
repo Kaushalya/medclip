@@ -1,17 +1,29 @@
 import os
-import token
+import sys
 
 # Fix for Streamlit + PyTorch compatibility issue
-import torch
-import sys
-if hasattr(torch, '_classes'):
-    # Prevent Streamlit from watching torch._classes module
-    sys.modules['torch._classes'].__path__ = []
+import streamlit as st
 
+# Patch the file watcher to ignore torch modules
+def patched_extract_paths(module):
+    """Patched version that safely handles torch modules"""
+    try:
+        if hasattr(module, '__name__') and 'torch' in str(module.__name__):
+            return []
+        if hasattr(module, '__path__'):
+            return list(module.__path__)
+        return []
+    except:
+        return []
+
+# Apply the patch
+import streamlit.watcher.local_sources_watcher as lsw
+lsw.extract_paths = patched_extract_paths
+
+import torch
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import streamlit as st
 from transformers import AutoTokenizer
 
 from medclip.modeling_hybrid_clip import FlaxHybridCLIP
@@ -39,10 +51,6 @@ st.sidebar.empty()
 st.sidebar.markdown("""Search for medical images with natural language powered by a CLIP model [[Model Card]](https://huggingface.co/flax-community/medclip-roco) finetuned on the
  [Radiology Objects in COntext (ROCO) dataset](https://github.com/razorx89/roco-dataset).""")
 st.sidebar.markdown("Example queries:")
-# * `ultrasound scans`🔍
-# * `pathology`🔍
-# * `pancreatic carcinoma`🔍
-# * `PET scan`🔍""")
 ex1_button = st.sidebar.button("🔍 pathology")
 ex2_button = st.sidebar.button("🔍 ultrasound scans")
 ex3_button = st.sidebar.button("🔍 pancreatic carcinoma")
@@ -52,14 +60,6 @@ k_slider = st.sidebar.slider("Number of images", min_value=1, max_value=10, valu
 st.sidebar.markdown("Kaushalya Madhawa, 2021")
 
 st.title("MedCLIP 🩺")
-# st.image("./assets/logo.png", width=100)
-# st.markdown("""Search for medical images with natural language powered by a CLIP model [[Model Card]](https://huggingface.co/flax-community/medclip-roco) finetuned on the
-#  [Radiology Objects in COntext (ROCO) dataset](https://github.com/razorx89/roco-dataset).""")
-# st.markdown("""Example queries:
-# * `ultrasound scans`🔍
-# * `pathology`🔍
-# * `pancreatic carcinoma`🔍
-# * `PET scan`🔍""")
 text_value = ''
 if ex1_button:
     text_value = 'pathology'
@@ -87,7 +87,6 @@ if st.button("Search") or k_slider:
         with st.spinner(f"Searching ROCO test set for {query}..."):
             k = k_slider
             inputs = tokenizer(text=[query], return_tensors="jax", padding=True)
-            # st.write(f"Query inputs: {inputs}")
             query_embedding = model.get_text_features(**inputs)
             query_embedding = np.asarray(query_embedding)
             query_embedding = query_embedding / np.linalg.norm(query_embedding, axis=-1, keepdims=True)
