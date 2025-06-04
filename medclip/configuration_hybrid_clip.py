@@ -57,10 +57,10 @@ class HybridCLIPConfig(PretrainedConfig):
     def __init__(self, projection_dim=512, **kwargs):
         super().__init__(**kwargs)
 
-        if "text_config" not in kwargs and len(kwargs) > 0:
+        if len(kwargs) > 0 and "text_config" not in kwargs:
             raise ValueError("`text_config` can not be `None`.")
 
-        if "vision_config" not in kwargs and len(kwargs) > 0:
+        if len(kwargs) > 0 and "vision_config" not in kwargs:
             raise ValueError("`vision_config` can not be `None`.")
 
         # Handle case where config is instantiated without arguments (for default config creation)
