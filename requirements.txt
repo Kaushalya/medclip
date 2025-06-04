@@ -1,6 +1,6 @@
 jax
 flax
-numpy==1.26.4
+numpy
 huggingface-hub
 streamlit
 torch

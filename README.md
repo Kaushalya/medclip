@@ -41,6 +41,24 @@ Test set: 7,650
 
 [ ] Give an example
 
+### Downloading the data
+The image embeddings for the test set are stored using Git LFS. To download the images, you need to have Git LFS installed.
+
+```bash
+# Install Git LFS (example for Ubuntu/Debian)
+sudo apt install git-lfs
+
+# Initialize Git LFS in your repository (run this once per clone)
+git lfs install
+
+# Download the LFS files
+git lfs pull
+```
+This will download all LFS files in the repository. If you only want to download the data for this project, you might need to specify the directory:
+```bash
+git lfs pull --include="data/*" 
+```
+
 ## Installation 💽
 This repo depends on the master branch of [Hugging Face - Transformers library](https://github.com/huggingface/transformers). First you need to clone the transformers repository and then install it locally (preferably inside a virtual environment) with `pip install -e ".[flax]"`.
 
